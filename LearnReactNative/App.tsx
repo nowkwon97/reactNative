@@ -1,5 +1,6 @@
 import React from 'react';
 import {Text, View} from 'react-native';
+import Test from './componenets/Test1';
 
 const HelloWorldApp = () => {
   return (
@@ -9,7 +10,9 @@ const HelloWorldApp = () => {
         justifyContent: 'center',
         alignItems: 'center',
       }}>
-      <Text>Hello, world!!</Text>
+      <Text>Hello, world!!!</Text>
+
+      <Test />
     </View>
   );
 };
