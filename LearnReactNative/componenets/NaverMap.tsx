@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
-import { View, WebView, WebViewMessageEvent } from 'react-native-webview';
+import {View} from 'react-native';
+import WebView from 'react-native-webview';
 
 const NaverMap = () => {
   useEffect(() => {
@@ -14,23 +15,25 @@ const NaverMap = () => {
         clientId: 'm923je25uq', // 네이버 맵 API 키를 입력하세요
       });
     `;
+
+    const cleanupScript = `
+      var mapElement = document.getElementById('map');
+      mapElement.innerHTML = '';
+    `;
+
     const injectedJavaScript = `window.onload = function() {${script}};`;
+    const cleanupInjectedJavaScript = `window.onload = function() {${cleanupScript}};`;
 
     return () => {
-      const cleanupScript = `
-        var mapElement = document.getElementById('map');
-        mapElement.innerHTML = '';
-      `;
-      const cleanupInjectedJavaScript = `window.onload = function() {${cleanupScript}};`;
-
-      return cleanupInjectedJavaScript;
+      // Cleanup code
+      eval(cleanupInjectedJavaScript);
     };
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <WebView
-        source={{ html: `<div id="map" style="width:100%;height:400px;"></div>` }}
+        source={{html: `<div id="map" style="width:100%;height:400px;"></div>`}}
         injectedJavaScript={injectedJavaScript}
         javaScriptEnabled={true}
       />
